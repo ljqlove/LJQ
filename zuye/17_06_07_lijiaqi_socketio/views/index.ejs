@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>聊天室</title>
+	<script src="/jquery/dist/jquery.js"></script>
+	<script src="/holderjs/holder.js"></script>
+	<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="/bootstrap/dist/js/bootstrap.js">
+	<style>
+		.left, .right{
+			height:500px;
+		}
+
+		.up{
+			border:solid 1px #ddd;
+			height:380px;
+			padding:10px;
+			overflow-y:scroll;
+		}
+		.container{
+			margin-top:100px;
+			width:50%;
+		}
+		#bak{
+			display:none;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<!-- 左侧内容 start -->
+		<div class="left col-md-9">
+			<div class="up">
+
+			</div>
+			<hr>
+			<div class="down">
+				<div class="input col-md-10" style="padding:0px;margin:0px;">
+					<textarea name="" id="" class="form-control"></textarea>
+				</div>
+				<div class="btn">
+					<button class="btn btn-primary send">发送</button>
+				</div>
+			</div>
+		</div>
+		<!-- 左侧内容 end -->
+
+		<!-- 右侧内容 start -->
+		<div class="right col-md-3">
+			
+		</div>
+		<!-- 右侧内容 end -->
+	</div>
+	<div id="bak">
+		<div class="media me">
+	      <div class="media-body">
+	        <h4 class="media-heading text-right">Me</h4>
+			<p class="text-right msg">哈喽!!萨瓦迪卡!!</p>
+	      </div>
+	      <div class="media-right">
+	        <a href="#">
+	          <img class="media-object" data-src="holder.js/60x60" alt="64x64" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PCEtLQpTb3VyY2UgVVJMOiBob2xkZXIuanMvNjR4NjQKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNWM4MDQ3ZDYzMSB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1YzgwNDdkNjMxIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxNCIgeT0iMzYuOCI+NjR4NjQ8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true" style="width: 64px; height: 64px;">
+	        </a>
+	      </div>
+	    </div>
+
+	    <div class="media other">
+	      <div class="media-left">
+	        <a href="#">
+	          <img class="media-object" data-src="holder.js/60x60" alt="64x64" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PCEtLQpTb3VyY2UgVVJMOiBob2xkZXIuanMvNjR4NjQKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNWM4MDQ4MWFkMCB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE1YzgwNDgxYWQwIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxNCIgeT0iMzYuOCI+NjR4NjQ8L3RleHQ+PC9nPjwvZz48L3N2Zz4=" data-holder-rendered="true" style="width: 64px; height: 64px;">
+	        </a>
+	      </div>
+	      <div class="media-body">
+	        <h4 class="media-heading">other</h4>
+	        <p>content</p>
+	      </div>
+
+	    </div>
+
+
+	    <div class="item user">
+			<div class="col-md-8">
+				<img  src="/images/1.jpg" class="img-responsive" alt="">
+			</div>
+			<p class="col-md-4">xiaohigh</p>
+		</div>
+	</div>
+	
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script>
+	//创建socket连接
+	var socket = io.connect('/');
+
+	// var username = prompt('您的昵称');
+	//登陆
+	function login() {
+		//获取昵称
+		var username = prompt('您的昵称');
+		//发送
+		socket.emit('login', {nickname:username})
+	}
+
+	login();
+
+
+	//点击发送按钮的单击事件
+	$('.send').click(function(){
+		//获取用户的输入值
+		var content = $('textarea').val();
+		//检测
+		if(content =='') {
+			alert('内容为空!!!');
+			return;
+		}
+		//克隆消息元素
+		var meDiv = $('#bak .me').clone(true);
+		//修改文本内容
+		meDiv.find('.msg').html(HTMLEnCode(content));
+		//jiangdiv插入到聊天框中
+		meDiv.appendTo('.up');
+		//清空文本域
+		$('textarea').val('');
+		//通过socket将信息发送给服务器
+		socket.emit('msg',  {nickname:username,msg:content});
+	});
+
+	//键盘事件
+	$(window).keydown(function(e){
+		if(e.keyCode == 13){
+			$('.send').trigger('click');
+		}
+	});
+	//键盘事件
+	$('textarea').keydown(function(e){
+		if(e.keyCode == 13){
+			$('.send').trigger('click');
+			return false;
+		}
+	})
+
+	//获取消息
+	socket.on('msg', function(data){
+		console.log(data);
+		//克隆元素
+		var item = $('#bak .other').clone(true);
+		//修改元素
+		item.find('h4').html(HTMLEnCode(data.nickname));
+		item.find('p').html(HTMLEnCode(data.msg));
+		//将元素插入到聊天框中
+		$('.up').append(item);
+	});
+
+	//获取新的登陆用户
+	socket.on('login', function(data){
+		//克隆新元素
+		var item = $('#bak .user').clone(true);
+		//修改元素
+		item.find('p').html(HTMLEnCode(data.nickname));
+		//将元素插入到用户列表中
+		$('.right').append(item);
+	})
+
+	//获取所有的用户
+	socket.emit('user-list');
+	socket.on('user-list', function(data){
+		console.log(data);
+		for(var i=0;i<data.length;i++) {
+		// 	//克隆新元素
+			var item = $('#bak .user').clone(true);
+		// 	//修改元素
+			item.find('p').html(data[i]);
+		// 	//将元素插入到用户列表中
+			$('.right').append(item);
+		}
+	});
+
+	function HTMLEnCode(str)  
+	{  
+	    var    s    =    "";  
+	    if    (str.length    ==    0)    return    "";  
+	    s    =    str.replace(/&/g,    "&gt;");  
+	    s    =    s.replace(/ </g,        "&lt;");  
+	    s    =    s.replace(/>/g,        "&gt;");  
+	    s    =    s.replace(/    /g,        "&nbsp;");  
+	    s    =    s.replace(/\'/g,      "'");  
+	    s    =    s.replace(/\"/g,      "&quot;");  
+	    s    =    s.replace(/\n/g,      " <br>");  
+	    return    s;  
+	}  
+	function HTMLDeCode(str)  
+	{  
+	    var    s    =    "";  
+	    if    (str.length    ==    0)    return    "";  
+	    s    =    str.replace(/&gt;/g,    "&");  
+	    s    =    s.replace(/&lt;/g,        " <");  
+	    s    =    s.replace(/&gt;/g,        ">");  
+	    s    =    s.replace(/&nbsp;/g,        "    ");  
+	    s    =    s.replace(/'/g,      "\'");  
+	    s    =    s.replace(/&quot;/g,      "\"");  
+	    s    =    s.replace(/ <br>/g,      "\n");  
+	    return    s;  
+	}  
+
+
+	</script>
+</body>
+
+</html>
