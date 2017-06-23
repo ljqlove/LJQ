@@ -1,6 +1,6 @@
 <?php 
 	
-	//
+	//nihao
 	$fp = fsockopen('www.baidu.com', '80', $errno, $errmsg, 10);
 
 	//
