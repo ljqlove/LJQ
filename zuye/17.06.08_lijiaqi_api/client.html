@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>客户端(可以认为这就是我们的app)</title>
+	<script src="./node_modules/jquery/dist/jquery.js"></script>
+	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+	<script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="https://cdn.bootcss.com/blueimp-md5/2.7.0/js/md5.js"></script>
+	<style>
+		#result{
+			height:500px;
+			border:solid 1px #ddd;
+			word-break:break-all;
+			padding:20px;
+		}
+		#url{
+			height:50px;
+			border:solid 1px #ddd;
+		}
+	</style>
+</head>
+<body>
+	<hr>
+	<div class="container">
+		<button class="btn btn-primary">获取新闻列表</button>
+		<hr>
+		<div id="url"></div>
+		<div id="result"></div>
+	</div>
+	
+
+	<script>
+	$('button').eq(0).click(function(){
+		//接口地址
+		var url = './index.php?c=News&a=getList';
+		//要发送的参数
+		var d = {num:10,page:1};
+
+		for(var i in d) {
+			url += '&'+i+'='+d[i];
+		}
+
+		var url = deal(url);
+
+		$.get(url, {}, function(data){
+			console.log($.parseJSON(data));
+			$('#result').html(data);
+		});
+	});
+
+	//处理url参数
+	function deal(url) {
+		//添加时间的字符串参数   
+		var res = url+'&t='+ Date.parse(new Date()) / 1000;
+		// c=News&a=getList&t=1496891458  => a=getList&c=News&t=1496891458   => md5()
+
+		var data = GetRequest(res);
+		var data = sortObj(data);
+		var data = makeParamsUrl(data);
+		//获取签名  在待签名的参数字符串的后面添加本地存储的token字符串
+		var sign = encrypt(data+getToken());
+
+		//在url后添加签名参数
+		res += '&sign='+sign;
+		console.log(sign);
+
+		showUrl(res);
+		
+
+		return res;
+	}
+
+	function encrypt(str) {
+		var tmp = md5(str);
+
+		// 1 7 9
+		var tmp_2 = tmp.charAt(1)+tmp.charAt(7)+tmp.charAt(9);// zef  190   8af
+		//转换成十进制
+		var tmp_3 = parseInt(tmp_2, 16);
+
+		var index = tmp_3 % 4;
+		var arr = [
+			[1,6,3,6,7,9,0],
+			[1,9,3,2,8,9,0],
+			[10,9,3,2,8,6,20],
+			[23,9,3,6,5,6,20]
+		];
+
+		var tmp_4 = arr[index];
+
+		//
+		var tmp_5 = '';
+		for(var i=0;i<tmp_4.length;i++) {
+			tmp_5 += tmp.charAt(tmp_4[i]);
+		}
+		console.log(tmp_5);
+		console.log(md5(tmp_5));
+
+
+		return md5(tmp_5);
+	}
+
+	//解析字符串
+	function GetRequest(url) {
+	    var theRequest = new Object();
+	    if (url.indexOf("?") != -1) {
+	    	var index = url.indexOf('?')+1;
+	        var str = url.substr(index);
+	        strs = str.split("&");
+	        for(var i = 0; i < strs.length; i ++) {
+	            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+	        }
+	    }
+	    return theRequest;
+	}
+
+	//对象排序 按照键名
+	function sortObj(obj) {
+		var sdic=Object.keys(obj).sort();
+		var newObj = {};
+		for(var i=0;i<sdic.length;i++) {
+			newObj[sdic[i]] = obj[sdic[i]];
+		}
+		return newObj;
+	}
+
+	//根据对象参数拼接参数字符串
+	function makeParamsUrl(obj) {
+		var str = '';
+		for(var i in obj) {
+			str += i+'='+obj[i]+'&';
+		}
+		return str.substr(0,str.length-1);
+	}
+
+	//显示url
+	function showUrl(url) {
+		$('#url').html('http://api.179.com'+url.substr(1));
+	}
+
+	function init() {
+		localStorage.setItem('token', 'iloveyoumm');
+	}
+
+	function getToken() {
+		return localStorage.getItem('token');
+	}
+	init();
+
+
+
+	</script>
+
+</body>
+</html>
